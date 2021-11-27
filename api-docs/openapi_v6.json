@@ -1,0 +1,335 @@
+{
+     "openapi": "3.0.0",
+     "info": {
+          "title": "API Presences",
+          "version": "v1"
+     },
+     "servers": [
+          {
+               "url": "http://localhost:5000"
+          }
+     ],
+     "paths": {
+          "/student": {
+               "post": {
+                    "description": "Creates a new student.",
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objStudent"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "200": {
+                              "description": "A successful message.",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "string"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               },
+               "get": {
+                    "description": "Get all registered students information.",
+                    "parameters": [],
+                    "responses": {
+                         "200": {
+                              "description": "Array of all students registered.",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objStudentResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/student/{id}": {
+               "get": {
+                    "description": "Get student details",
+                    "parameters": [
+                         {
+                              "name": "id",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "string",
+                                   "pattern": "[a-zA-Z0-9]+"
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "A single student.",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objStudent"
+                                        }
+                                   }
+                              }
+                         },
+                         "400": {
+                              "$ref": "#/components/responses/400BadRequest"
+                         },
+                         "404": {
+                              "description": "Student not found.",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "object",
+                                             "properties": {
+                                                  "message": {
+                                                       "type": "string",
+                                                       "example": "Student not found."
+                                                  }
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/student/{id}/presences": {
+               "get": {
+                    "description": "Get student prencences.",
+                    "parameters": [
+                         {
+                              "name": "id",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "string",
+                                   "pattern": "[a-zA-Z0-9]+"
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "Array of presences.",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "array",
+                                             "$ref": "#/components/schemas/objPresence"
+                                        }
+                                   }
+                              }
+                         },
+                         "400": {
+                              "$ref": "#/components/responses/400BadRequest"
+                         },
+                         "404": {
+                              "description": "No presences registered.",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "object",
+                                             "properties": {
+                                                  "message": {
+                                                       "type": "string",
+                                                       "example": "No presences registered."
+                                                  }
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/presence?day={day}": {
+               "get": {
+                    "description": "Get all prencences for day specified.",
+                    "parameters": [
+                         {
+                              "name": "day",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "string",
+                                   "format": "date"
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "Array of presences.",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "array",
+                                             "$ref": "#/components/schemas/objPresence"
+                                        }
+                                   }
+                              }
+                         },
+                         "400": {
+                              "$ref": "#/components/responses/400BadRequest"
+                         },
+                         "404": {
+                              "description": "No presences registered.",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "object",
+                                             "properties": {
+                                                  "message": {
+                                                       "type": "string",
+                                                       "example": "No presences registered."
+                                                  }
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/student/{id}/presence?to={to}&from={from}": {
+               "get": {
+                    "description": "Get all prencences by stundent in a date interval.",
+                    "parameters": [
+                         {
+                              "name": "id",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "string",
+                                   "pattern": "[a-zA-Z0-9]+"
+                              }
+                         },
+                         {
+                              "name": "to",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "string",
+                                   "format": "date"
+                              }
+                         },
+                         {
+                              "name": "from",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "string",
+                                   "format": "date"
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "Array of presences of a student for a date interval.",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "array",
+                                             "$ref": "#/components/schemas/objPresence"
+                                        }
+                                   }
+                              }
+                         },
+                         "400": {
+                              "$ref": "#/components/responses/400BadRequest"
+                         },
+                         "404": {
+                              "description": "No presences registered.",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "object",
+                                             "properties": {
+                                                  "message": {
+                                                       "type": "string",
+                                                       "example": "No presences registered for the student specified in the date interval specified."
+                                                  }
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          }
+     },
+     "components": {
+          "schemas": {
+               "objStudent": {
+                    "type": "object",
+                    "properties": {
+                         "numStudent": {
+                              "type": "string"
+                         },
+                         "name": {
+                              "type": "number"
+                         },
+                         "card": {
+                              "$ref": "#/components/schemas/objCard"
+                         }
+                    }
+               },
+               "objCard": {
+                    "type": "object",
+                    "properties": {
+                         "number": {
+                              "type": "number"
+                         },
+                         "validaty": {
+                              "type": "string",
+                              "format": "date"
+                         }
+                    }
+               },
+               "objStudentResponse": {
+                    "type": "object",
+                    "properties": {
+                         "_id": {
+                              "type": "string"
+                         },
+                         "name": {
+                              "type": "string"
+                         },
+                         "number": {
+                              "type": "string"
+                         },
+                         "card": {
+                              "$ref": "#/components/schemas/objCard"
+                         }
+                    }
+               },
+               "objPresence": {
+                    "type": "object",
+                    "properties": {
+                         "_id": {
+                              "type": "string"
+                         },
+                         "cardNumber": {
+                              "type": "number"
+                         },
+                         "lastPresence": {
+                              "type": "string",
+                              "format": "date"
+                         },
+                         "room": {
+                              "type": "string"
+                         }
+                    }
+               }
+          },
+          "responses": {
+               "400BadRequest": {
+                    "description": "Bad request."
+               }
+          }
+     }
+}
