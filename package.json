@@ -1,5 +1,5 @@
 {
-     "name": "api_npresences",
+     "name": "api_presences",
      "version": "1.0.0",
      "description": "API Presences",
      "main": "server.js",
