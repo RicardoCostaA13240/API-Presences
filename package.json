@@ -1,5 +1,5 @@
 {
-     "name": "ex_nodejs",
+     "name": "api_npresences",
      "version": "1.0.0",
      "description": "API Presences",
      "main": "server.js",
